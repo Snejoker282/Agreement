@@ -149,59 +149,59 @@
     <audio id="error-audio" src="error.m4a"></audio>
   </div>
 
-  <script>
-    const question = document.getElementById('question');
-    const fullscreen = document.getElementById('troll-fullscreen');
-    const trollAudio = document.getElementById('troll-audio');
-    const errorAudio = document.getElementById('error-audio');
+ <script>
+  const question = document.getElementById('question');
+  const fullscreen = document.getElementById('troll-fullscreen');
+  const trollAudio = document.getElementById('troll-audio');
 
-    // Desktop buttons
-    const yesButton = document.getElementById('yes');
-    const noButton = document.getElementById('no');
+  // Desktop buttons
+  const yesButton = document.getElementById('yes');
+  const noButton = document.getElementById('no');
 
-    yesButton?.addEventListener('mouseenter', () => {
+  yesButton?.addEventListener('mouseenter', () => {
+    question.textContent = 'Сосал?';
+  });
+  yesButton?.addEventListener('mouseleave', () => {
+    question.textContent = 'Вы принимаете данные условия?';
+  });
+  yesButton?.addEventListener('click', () => {
+    fullscreen.style.display = 'flex';
+    trollAudio.play();
+  });
+  noButton?.addEventListener('click', () => {
+    new Audio('error.m4a').play(); // создаём новый экземпляр
+  });
+
+  // Mobile checkboxes
+  const checkYes = document.getElementById('check-yes');
+  const checkNo = document.getElementById('check-no');
+  const submitButton = document.getElementById('submit');
+
+  function updateCheckboxes(selected) {
+    if (selected === "yes") {
+      checkYes.classList.add('active');
+      checkNo.classList.remove('active');
       question.textContent = 'Сосал?';
-    });
-    yesButton?.addEventListener('mouseleave', () => {
+    } else if (selected === "no") {
+      checkNo.classList.add('active');
+      checkYes.classList.remove('active');
       question.textContent = 'Вы принимаете данные условия?';
-    });
-    yesButton?.addEventListener('click', () => {
+    }
+    submitButton.style.opacity = '1';
+    submitButton.style.pointerEvents = 'auto';
+  }
+
+  checkYes.addEventListener('click', () => updateCheckboxes("yes"));
+  checkNo.addEventListener('click', () => updateCheckboxes("no"));
+  submitButton.addEventListener('click', () => {
+    if (checkYes.classList.contains('active')) {
       fullscreen.style.display = 'flex';
       trollAudio.play();
-    });
-    noButton?.addEventListener('click', () => {
-      errorAudio.play();
-    });
-
-    // Mobile checkboxes
-    const checkYes = document.getElementById('check-yes');
-    const checkNo = document.getElementById('check-no');
-    const submitButton = document.getElementById('submit');
-
-    function updateCheckboxes(selected) {
-      if (selected === "yes") {
-        checkYes.classList.add('active');
-        checkNo.classList.remove('active');
-        question.textContent = 'Сосал?';
-      } else if (selected === "no") {
-        checkNo.classList.add('active');
-        checkYes.classList.remove('active');
-        question.textContent = 'Вы принимаете данные условия?';
-      }
-      submitButton.style.opacity = '1';
-      submitButton.style.pointerEvents = 'auto';
+    } else if (checkNo.classList.contains('active')) {
+      new Audio('error.m4a').play(); // каждый раз новый звук
     }
+  });
+</script>
 
-    checkYes.addEventListener('click', () => updateCheckboxes("yes"));
-    checkNo.addEventListener('click', () => updateCheckboxes("no"));
-    submitButton.addEventListener('click', () => {
-      if (checkYes.classList.contains('active')) {
-        fullscreen.style.display = 'flex';
-        trollAudio.play();
-      } else if (checkNo.classList.contains('active')) {
-        errorAudio.play();
-      }
-    });
-  </script>
 </body>
 </html>
